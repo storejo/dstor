@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+<div class="logo">لوحة الإدارة</div>
+<nav>
+<a href="/">المتجر</a>
+<a href="/logout">تسجيل خروج</a>
+</nav>
+</header>
+
+<div class="admin-container">
+
+<h2>إضافة منتج</h2>
+
+<form action="/add-product" method="POST" enctype="multipart/form-data">
+
+<input type="text" name="name" placeholder="اسم المنتج" required>
+
+<input type="text" name="old_price" placeholder="السعر القديم" required>
+
+<input type="text" name="price" placeholder="السعر الجديد" required>
+
+<input type="text" name="category" placeholder="القسم" required>
+
+<input type="file" name="image" required>
+
+<button type="submit">رفع المنتج</button>
+
+</form>
+
+<div class="products">
+
+{% for product in products %}
+
+<div class="card">
+<img src="{{ url_for('static', filename=product[3]) }}">
+<h3>{{ product[1] }}</h3>
+<div class="price">{{ product[2] }} جنيه</div>
+<a href="/delete-product/{{ product[0] }}">
+<button>حذف المنتج</button>
+</a>
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</body>
+</html>

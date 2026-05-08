@@ -1,1 +1,108 @@
-test
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DStore Ultimate</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+<div class="logo">DStore</div>
+<input type="text" id="search" placeholder="ابحث عن منتج" class="search">
+<nav>
+<a href="/">الرئيسية</a>
+<a href="/login">دخول</a>
+<a href="/register">حساب جديد</a>
+<a href="/orders">الطلبات</a>
+<a href="/admin-login">الأدمن</a>
+</nav>
+</header>
+
+<section class="hero">
+<h1>أفضل متجر إلكترونيات</h1>
+<p>خصومات ضخمة على أحدث الأجهزة</p>
+</section>
+
+<section class="products" id="products">
+
+{% for product in products %}
+
+<div class="card">
+
+<img src="{{ url_for('static', filename=product[3]) }}">
+
+<h2>{{ product[1] }}</h2>
+
+<div class="old-price">
+{{ product[5] }} جنيه
+</div>
+
+<div class="price">
+{{ product[2] }} جنيه
+</div>
+
+<div class="category">
+{{ product[4] }}
+</div>
+
+<form action="/order" method="POST">
+
+<input type="hidden" name="product" value="{{ product[1] }}">
+
+<input type="hidden" name="price" value="{{ product[2] }}">
+
+<input type="text" name="customer" placeholder="اسم العميل" required>
+
+<input type="text" name="address" placeholder="العنوان" required>
+
+<select name="payment">
+<option>الدفع عند الاستلام</option>
+<option>اتصالات كاش</option>
+</select>
+
+<button type="submit">
+شراء الآن
+</button>
+
+</form>
+
+</div>
+
+{% endfor %}
+
+</section>
+
+<script>
+
+let search = document.getElementById('search');
+
+search.addEventListener('keyup', function(){
+
+let filter = search.value.toUpperCase();
+
+let cards = document.querySelectorAll('.card');
+
+cards.forEach(card=>{
+
+let title = card.querySelector('h2').innerText;
+
+if(title.toUpperCase().indexOf(filter) > -1){
+
+card.style.display = '';
+
+}else{
+
+card.style.display = 'none';
+
+}
+
+});
+
+});
+
+</script>
+
+</body>
+</html>
